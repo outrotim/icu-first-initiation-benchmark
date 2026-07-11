@@ -1,0 +1,31 @@
+section,parameter,value
+Logistic Regression,C,1.0
+Logistic Regression,class_weight,None
+Logistic Regression,fit_intercept,True
+Logistic Regression,max_iter,2000
+Logistic Regression,penalty,l2
+Logistic Regression,random_state,42
+Logistic Regression,solver,lbfgs
+Logistic Regression,tol,0.0001
+Logistic Regression,scaler_with_mean,True
+Logistic Regression,scaler_with_std,True
+LightGBM,boosting_type,gbdt
+LightGBM,colsample_bytree,0.8
+LightGBM,is_unbalance,True
+LightGBM,learning_rate,0.05
+LightGBM,max_depth,6
+LightGBM,min_child_samples,30
+LightGBM,n_estimators,500
+LightGBM,num_leaves,31
+LightGBM,random_state,42
+LightGBM,reg_alpha,0.0
+LightGBM,reg_lambda,0.0
+LightGBM,subsample,0.8
+LightGBM,subsample_freq,0
+Preprocessing,range_filter,Registered physiologic ranges before aggregation
+Preprocessing,remaining_missing_values,Deterministic zero fill after feature construction
+Preprocessing,logistic_regression_scaling,StandardScaler fitted on training rows after zero fill
+Preprocessing,lightgbm_scaling,None
+Evaluation,patient_split,Patient-grouped train-validation-test split
+Evaluation,primary_bootstrap,2000 state-stratified paired iterations
+
