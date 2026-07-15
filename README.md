@@ -2,7 +2,7 @@
 
 Minimal reproducibility assets for:
 
-> *Prevalent Ventilation State and History Can Inflate Apparent Discrimination for First-Initiation Prognosis: A Multidatabase Empirical Benchmark*
+> *Prevalent Ventilation State and History Inflate Apparent Discrimination for First-Initiation Prognosis: A Fixed-Score Empirical Benchmark*
 
 This repository does not propose a deployable clinical prediction model. It provides a reusable eligibility and evaluation framework for separating future first invasive-ventilation initiation from recognition of active or prior ventilation.
 
@@ -61,7 +61,7 @@ The command writes PNG and PDF versions of Figures 1-3 using only `figure_source
 ## Interpretation caveats
 
 - The estimand is future first invasive-ventilation initiation among patients still eligible to experience that event at the landmark.
-- `Can inflate` refers to the deliberately constructed fixed-score stress test; it is not an estimate of how common target mixing is in published studies.
+- Inflation refers to the deliberately constructed fixed-score stress test; it is not an estimate of how common target mixing is in published studies.
 - The eICU analysis provides directional consistency under a non-equivalent proxy endpoint. It is not external validation of a transported MIMIC model.
 - The CRRT comparison is an endpoint-specific contrast and does not establish a universal correction.
 - The released estimator settings are for methodological transparency. No fitted clinical model or deployment claim is provided.
