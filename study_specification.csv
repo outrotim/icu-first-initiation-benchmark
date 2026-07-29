@@ -1,0 +1,57 @@
+record_type,name,value,description
+estimand,landmarks_hours,"6, 12, 18, 24",Hours after ICU admission
+estimand,lookback_hours,6,Completed predictor window before each landmark
+estimand,primary_horizon_hours,6,Outcome window after each landmark
+estimand,predictor_interval,"[landmark-6h, landmark)",Left-closed right-open
+estimand,outcome_interval,"(landmark, landmark+6h]",Left-open right-closed
+estimand,eligibility,never_exposed_to_invasive_ventilation,No invasive ventilation before or at landmark
+estimand,outcome,first_initiation_of_invasive_mechanical_ventilation,First ICU-recorded initiation in outcome window
+split,train_fraction,0.70,Patient-disjoint
+split,validation_fraction,0.15,Patient-disjoint
+split,test_fraction,0.15,Patient-disjoint
+split,group,patient,One ICU stay per patient
+preprocessing,range_filter,registered_physiologic_ranges,Applied before aggregation
+preprocessing,imputation,training_set_median,Fitted on training rows only
+preprocessing,logistic_scaling,training_set_standardization,Fitted after imputation
+preprocessing,lightgbm_scaling,none,Raw imputed features
+model,logistic_penalty,l2,
+model,logistic_C,1.0,
+model,logistic_max_iter,2000,
+model,logistic_class_weight,none,
+model,lightgbm_n_estimators,500,
+model,lightgbm_learning_rate,0.05,
+model,lightgbm_max_depth,6,
+model,lightgbm_colsample_bytree,0.8,
+model,lightgbm_min_child_samples,30,
+model,lightgbm_subsample,0.8,
+model,lightgbm_subsample_freq,0,
+model,lightgbm_class_weight,none,
+calibration,method,logistic_recalibration,Fitted on validation predictions
+evaluation,primary_alert_budget,0.05,Fraction of all test landmark observations
+evaluation,sensitivity_alert_budgets,"0.10, 0.20",Fractions of all test landmark observations
+uncertainty,bootstrap_samples,1000,Paired across 2 x 2 cells
+uncertainty,bootstrap_unit,patient,Patient-cluster resampling
+uncertainty,confidence_level,0.95,Percentile interval
+predictor,age,static,Years
+predictor,sex,static,Recorded sex
+predictor,landmark_hour,static,Hours after ICU admission
+predictor,heart_rate,dynamic,Heart rate
+predictor,map,dynamic,Mean arterial pressure
+predictor,sbp,dynamic,Systolic blood pressure
+predictor,spo2,dynamic,Peripheral oxygen saturation
+predictor,temperature,dynamic,Temperature
+predictor,lactate,dynamic,Lactate
+predictor,creatinine,dynamic,Creatinine
+predictor,bilirubin,dynamic,Bilirubin
+predictor,platelets,dynamic,Platelet count
+predictor,wbc,dynamic,White blood cell count
+predictor,pao2,dynamic,Arterial oxygen tension
+predictor,urine_output,dynamic,Urine output
+dynamic_summary,last,per_dynamic_predictor,Last observed value
+dynamic_summary,mean,per_dynamic_predictor,Mean
+dynamic_summary,minimum,per_dynamic_predictor,Minimum
+dynamic_summary,maximum,per_dynamic_predictor,Maximum
+dynamic_summary,slope,per_dynamic_predictor,Linear slope
+dynamic_summary,missing_proportion,per_dynamic_predictor,Proportion of six hourly bins missing
+dynamic_summary,time_since_last,per_dynamic_predictor,Time since last observation
+dynamic_summary,change,per_dynamic_predictor,Change across window

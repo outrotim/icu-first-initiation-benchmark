@@ -9,190 +9,209 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_DATA = ROOT / "figure_source_data.json"
-COLORS = {"Logistic Regression": "#246B8E", "LightGBM": "#D97728"}
-FIGURE_1_BOXES = {
-    "full_cohort": (0.04, 0.42),
-    "active_at_landmark": (0.38, 0.70),
-    "resolved_before_landmark": (0.38, 0.42),
-    "never_exposed_at_landmark": (0.38, 0.14),
-    "strict_incident_12_36h": (0.72, 0.24),
-    "no_first_initiation_12_36h": (0.72, 0.04),
+BLUE = "#0072B2"
+GREEN = "#009E73"
+ORANGE = "#E69F00"
+RED = "#D55E00"
+GRAY = "#8C8C8C"
+MODEL_STYLE = {
+    "Logistic Regression": (BLUE, "o"),
+    "LightGBM": (GREEN, "s"),
 }
 
 
-def validate_figure_1_layout() -> None:
-    """Prevent state partitions from appearing as one sequential pathway."""
-    state_y = {
-        FIGURE_1_BOXES[name][1]
-        for name in (
-            "active_at_landmark",
-            "resolved_before_landmark",
-            "never_exposed_at_landmark",
-        )
-    }
-    if len(state_y) != 3:
-        raise ValueError("Figure 1 state partitions must occupy three distinct branches")
+def style() -> None:
+    plt.rcParams.update(
+        {
+            "font.family": "serif",
+            "font.serif": ["Times New Roman", "DejaVu Serif"],
+            "font.size": 9,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.grid": True,
+            "grid.alpha": 0.16,
+            "legend.frameon": False,
+            "savefig.dpi": 300,
+            "savefig.bbox": "tight",
+        }
+    )
 
 
-def save_figure(fig: plt.Figure, output_dir: Path, stem: str) -> None:
+def save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_dir / f"{stem}.png", dpi=300, bbox_inches="tight")
-    fig.savefig(output_dir / f"{stem}.pdf", bbox_inches="tight")
+    fig.savefig(output_dir / f"{stem}.png", dpi=300, facecolor="white")
+    fig.savefig(output_dir / f"{stem}.pdf", facecolor="white")
     plt.close(fig)
 
 
-def figure_1(data: dict, output_dir: Path) -> None:
-    validate_figure_1_layout()
-    rows = data["figure_1"]["groups"]
-    by_name = {row["group"]: row for row in rows}
-    fig, ax = plt.subplots(figsize=(10, 4.8))
-    ax.axis("off")
-    boxes = [
-        ("full_cohort", "Full landmark cohort", "#E8EEF2"),
-        ("active_at_landmark", "Active ventilation", "#F4D6D2"),
-        ("resolved_before_landmark", "Resolved history", "#F7E7C6"),
-        ("never_exposed_at_landmark", "Never exposed", "#DDEFE5"),
-        ("strict_incident_12_36h", "Incident first initiation", "#CFE5F2"),
-        ("no_first_initiation_12_36h", "No first initiation", "#E9ECEF"),
-    ]
-    width, height = 0.24, 0.18
-    for key, label, color in boxes:
-        x, y = FIGURE_1_BOXES[key]
-        count = by_name[key]["n"]
-        ax.add_patch(plt.Rectangle((x, y), 0.24, 0.18, facecolor=color, edgecolor="#4B5563"))
-        ax.text(x + width / 2, y + 0.105, label, ha="center", va="center", fontsize=9)
-        ax.text(x + width / 2, y + 0.045, f"n = {count:,}", ha="center", va="center", fontsize=10, weight="bold")
+def figure1(data: dict, output_dir: Path) -> None:
+    counts = pd.DataFrame(data["figure_1"]["landmark_counts"])
+    metrics = pd.DataFrame(data["figure_1"]["model_metrics"])
+    dca = pd.DataFrame(data["figure_1"]["decision_curves"])
+    intervals = data["figure_1"]["auroc_intervals"]
+    fig, axes = plt.subplots(2, 2, figsize=(7.2, 6.0), constrained_layout=True)
 
-    def arrow(source: str, target: str) -> None:
-        sx, sy = FIGURE_1_BOXES[source]
-        tx, ty = FIGURE_1_BOXES[target]
-        ax.annotate(
-            "",
-            xy=(tx, ty + height / 2),
-            xytext=(sx + width, sy + height / 2),
-            arrowprops={"arrowstyle": "->", "connectionstyle": "arc3,rad=0.0"},
-        )
+    ax = axes[0, 0]
+    ax.set_axis_off()
+    ax.plot([1, 29], [0.72, 0.72], color="#252525", lw=1.2)
+    for landmark in [6, 12, 18, 24]:
+        ax.scatter(landmark, 0.72, color=BLUE)
+        ax.text(landmark, 0.82, f"{landmark} h", ha="center")
+    ax.annotate("", xy=(12, 0.52), xytext=(6, 0.52), arrowprops={"arrowstyle": "<->"})
+    ax.text(8.6, 0.40, "6-h lookback", ha="center")
+    ax.annotate("", xy=(18, 0.52), xytext=(12, 0.52), arrowprops={"arrowstyle": "<->"})
+    ax.text(15.5, 0.40, "6-h outcome", ha="center")
+    ax.text(
+        7.0,
+        0.12,
+        "Eligible risk set\nnever ventilated",
+        ha="center",
+        va="center",
+        color=GREEN,
+        fontsize=8,
+    )
+    ax.text(
+        22.5,
+        0.12,
+        "Excluded from first-initiation risk set\nactive or prior ventilation",
+        ha="center",
+        va="center",
+        color=RED,
+        fontsize=7.5,
+    )
+    ax.set_xlim(0, 30)
+    ax.set_ylim(0, 1)
+    ax.set_title("A", loc="left", fontweight="bold")
 
-    for target in ("active_at_landmark", "resolved_before_landmark", "never_exposed_at_landmark"):
-        arrow("full_cohort", target)
-    for target in ("strict_incident_12_36h", "no_first_initiation_12_36h"):
-        arrow("never_exposed_at_landmark", target)
-    ax.text(0.51, -0.045, "Incident-at-risk evaluation excludes active and resolved prior states", ha="center", fontsize=11)
-    ax.set_xlim(0, 1)
-    ax.set_ylim(-0.08, 1)
-    save_figure(fig, output_dir, "Figure_1")
+    ax = axes[0, 1]
+    x = np.arange(len(counts))
+    bottom = np.zeros(len(counts))
+    for column, color, label in [
+        ("never_exposed", GREEN, "At risk"),
+        ("active", RED, "Active"),
+        ("resolved", ORANGE, "Prior/resolved"),
+    ]:
+        values = counts[column].to_numpy()
+        ax.bar(x, values, bottom=bottom, color=color, label=label)
+        bottom += values
+    ax.set_xticks(x, [f"{int(value)} h" for value in counts["landmark_hours"]])
+    ax.set_ylabel("Patient-landmarks")
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.01),
+        ncol=3,
+        fontsize=6.5,
+        columnspacing=0.7,
+        handlelength=1.4,
+    )
+    ax.set_title("B", loc="left", fontweight="bold")
 
-
-def figure_2(data: dict, output_dir: Path) -> None:
-    decomposition = [row for row in data["figure_2"]["decomposition"] if row["component"] == "mv"]
-    dose = data["figure_2"]["dose_response"]
-    fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.4))
+    ax = axes[1, 0]
     models = ["Logistic Regression", "LightGBM"]
-    x = np.arange(len(models))
-    active = [next(row for row in decomposition if row["model"] == model)["contribution_active_support"] for model in models]
-    resolved = [next(row for row in decomposition if row["model"] == model)["contribution_resolved_history"] for model in models]
-    axes[0].bar(x, active, color="#C45D4A", label="Active state")
-    axes[0].bar(x, resolved, bottom=active, color="#D6A44A", label="Resolved history")
-    axes[0].set_xticks(x, ["LR", "LightGBM"])
-    axes[0].set_ylabel("Contribution to AUROC increment")
-    axes[0].set_title("A  State-resolved contribution", loc="left")
-    axes[0].legend(frameon=False)
-
-    incident = [next(row for row in decomposition if row["model"] == model)["auc_incident_vs_negative"] for model in models]
-    mixture = [next(row for row in decomposition if row["model"] == model)["auc_observed_mixture"] for model in models]
+    for offset, metric, color, marker in [
+        (-0.08, "auroc", BLUE, "o"),
+        (0.08, "auprc", ORANGE, "s"),
+    ]:
+        values = [
+            float(metrics.loc[metrics["model"].eq(model), metric].iloc[0])
+            for model in models
+        ]
+        ax.scatter(np.arange(2) + offset, values, color=color, marker=marker, label=metric.upper())
     for index, model in enumerate(models):
-        axes[1].plot([0, 1], [incident[index], mixture[index]], marker="o", color=COLORS[model], label=model)
-    axes[1].set_xticks([0, 1], ["Incident only", "History inclusive"])
-    axes[1].set_ylim(0.5, 1.0)
-    axes[1].set_ylabel("Fixed-score AUROC")
-    axes[1].set_title("B  Apparent discrimination", loc="left")
-    axes[1].legend(frameon=False)
+        value = float(metrics.loc[metrics["model"].eq(model), "auroc"].iloc[0])
+        lower, upper = intervals[model]
+        ax.errorbar(index - 0.08, value, yerr=[[value - lower], [upper - value]], fmt="none", color=BLUE)
+    ax.set_xticks([0, 1], ["Logistic\nregression", "LightGBM"])
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("Held-out performance")
+    ax.legend()
+    ax.set_title("C", loc="left", fontweight="bold")
 
-    for model in models:
-        rows = sorted((row for row in dose if row["model"] == model), key=lambda row: row["prior_history_fraction_among_positive_labels"])
-        fraction = np.asarray([row["prior_history_fraction_among_positive_labels"] for row in rows])
-        estimate = np.asarray([row["expected_auroc"] for row in rows])
-        lower = np.asarray([row["ci_lower"] for row in rows])
-        upper = np.asarray([row["ci_upper"] for row in rows])
-        axes[2].plot(fraction, estimate, color=COLORS[model], label=model)
-        axes[2].fill_between(fraction, lower, upper, color=COLORS[model], alpha=0.15)
-    axes[2].set_xlabel("Prior-state fraction among positive labels")
-    axes[2].set_ylabel("Expected AUROC")
-    axes[2].set_title("C  Positive-mixture dose response", loc="left")
-    axes[2].legend(frameon=False)
-    fig.tight_layout()
-    save_figure(fig, output_dir, "Figure_2")
+    ax = axes[1, 1]
+    for model, (color, marker) in MODEL_STYLE.items():
+        block = dca.loc[dca["model"].eq(model)].sort_values("threshold")
+        ax.plot(block["threshold"], block["net_benefit_model"], color=color, marker=marker, label=model)
+    reference = dca.loc[dca["model"].eq("Logistic Regression")].sort_values("threshold")
+    ax.plot(reference["threshold"], reference["net_benefit_all"], color=GRAY, linestyle="--", label="Alert all")
+    ax.axhline(0, color="#252525", linestyle=":", label="Alert none")
+    ax.set_xlabel("Risk threshold")
+    ax.set_ylabel("Net benefit")
+    ax.legend(fontsize=7)
+    ax.set_title("D", loc="left", fontweight="bold")
+    save(fig, output_dir, "Figure_1")
 
 
-def figure_3(data: dict, output_dir: Path) -> None:
-    defenses = data["figure_3"]["key_defenses"]
-    contrast = data["figure_3"]["multilandmark_and_contrast"]
-    folds = data["figure_3"]["eicu_folds"]
-    global_rows = data["figure_3"]["eicu_global"]
-    fig, axes = plt.subplots(1, 3, figsize=(14, 5.2))
+def figure2(data: dict, output_dir: Path) -> None:
+    cells = pd.DataFrame(data["figure_2"]["cells"])
+    contrasts = pd.DataFrame(data["figure_2"]["contrasts"])
+    cell_order = ["A", "B", "C", "D"]
+    fig, axes = plt.subplots(1, 3, figsize=(11.6, 4.2), constrained_layout=True)
+    offsets = {"Logistic Regression": -0.09, "LightGBM": 0.09}
+    x = np.arange(4)
+    labels = ["A\nIncident\nFilter on", "B\nIncident\nFilter off", "C\nHistory\nFilter on", "D\nHistory\nFilter off"]
+    for ax, metric, lower, upper, ylabel in [
+        (axes[0], "incident_sensitivity", "incident_sensitivity_ci_lower", "incident_sensitivity_ci_upper", "Incident events captured (%)"),
+        (axes[1], "ineligible_alert_fraction", "ineligible_alert_fraction_ci_lower", "ineligible_alert_fraction_ci_upper", "Alerts outside risk set (%)"),
+    ]:
+        for model, (color, marker) in MODEL_STYLE.items():
+            block = cells.loc[cells["model"].eq(model)].set_index("cell").loc[cell_order]
+            values = 100 * block[metric].to_numpy()
+            lowers = 100 * block[lower].to_numpy()
+            uppers = 100 * block[upper].to_numpy()
+            ax.errorbar(x + offsets[model], values, yerr=[values - lowers, uppers - values], fmt=marker, color=color, capsize=3, label=model)
+        ax.set_xticks(x, labels)
+        ax.set_ylabel(ylabel)
+        ax.set_ylim(-3, 100)
+    axes[0].legend(fontsize=7)
+    contrast_order = [
+        "filter_effect_incident_target",
+        "filter_effect_history_target",
+        "target_effect_with_filter",
+        "target_effect_without_filter",
+        "target_by_filter_interaction",
+    ]
+    y = np.arange(len(contrast_order))
+    for model, (color, marker) in MODEL_STYLE.items():
+        block = contrasts.loc[contrasts["model"].eq(model)].set_index("contrast").loc[contrast_order]
+        estimate = 100 * block["estimate"].to_numpy()
+        lower = 100 * block["ci_lower"].to_numpy()
+        upper = 100 * block["ci_upper"].to_numpy()
+        axes[2].errorbar(estimate, y + offsets[model], xerr=[estimate - lower, upper - estimate], fmt=marker, color=color, capsize=3)
+    axes[2].axvline(0, color="#252525", linestyle=":")
+    axes[2].set_yticks(y, ["Filter effect\nIncident", "Filter effect\nHistory", "Target effect\nFilter on", "Target effect\nFilter off", "Interaction"])
+    axes[2].invert_yaxis()
+    axes[2].set_xlabel("Difference in event capture (percentage points)")
+    for label, ax in zip(["A", "B", "C"], axes, strict=True):
+        ax.set_title(label, loc="left", fontweight="bold")
+    save(fig, output_dir, "Figure_2")
 
-    labels = []
-    positions = []
-    cursor = 0
-    for scenario in dict.fromkeys(row["display_label"] for row in defenses):
-        rows = [row for row in defenses if row["display_label"] == scenario]
-        for row in rows:
-            positions.append(cursor)
-            labels.append(f"{scenario} | {'LR' if row['model'] == 'Logistic Regression' else 'LightGBM'}")
-            axes[0].errorbar(
-                row["estimate"], cursor,
-                xerr=[[row["estimate"] - row["ci_lower"]], [row["ci_upper"] - row["estimate"]]],
-                fmt="o", color=COLORS[row["model"]], capsize=2,
-            )
-            cursor += 1
-    axes[0].axvline(0, color="#6B7280", linewidth=1)
-    axes[0].set_yticks(positions, labels, fontsize=7)
-    axes[0].invert_yaxis()
-    axes[0].set_xlabel("Fixed-score AUROC increment")
-    axes[0].set_title("A  Statistical defenses", loc="left")
 
-    canonical = [row for row in contrast if row["scenario_id"] == "G1_L12"]
-    for index, model in enumerate(["Logistic Regression", "LightGBM"]):
-        mv = next(row for row in canonical if row["component"] == "mv" and row["model"] == model)
-        crrt = next(row for row in canonical if row["component"] == "crrt" and row["model"] == model)
-        offset = (-0.12, 0.12)[index]
-        axes[1].errorbar(
-            [mv["fixed_contamination_delta"], crrt["fixed_contamination_delta"]],
-            np.asarray([0, 1]) + offset,
-            xerr=[
-                [mv["fixed_contamination_delta"] - mv["fixed_contamination_delta_ci_lower"], crrt["fixed_contamination_delta"] - crrt["fixed_contamination_delta_ci_lower"]],
-                [mv["fixed_contamination_delta_ci_upper"] - mv["fixed_contamination_delta"], crrt["fixed_contamination_delta_ci_upper"] - crrt["fixed_contamination_delta"]],
-            ],
-            fmt="o", color=COLORS[model], label=model, capsize=3,
-        )
-    axes[1].axvline(0, color="#6B7280", linewidth=1)
-    axes[1].set_yticks([0, 1], ["Mechanical ventilation", "CRRT"])
-    axes[1].invert_yaxis()
-    axes[1].set_xlabel("Fixed-score AUROC increment")
-    axes[1].set_title("B  Endpoint specificity", loc="left")
-    axes[1].legend(frameon=False)
-
-    for model in ["Logistic Regression", "LightGBM"]:
-        model_rows = sorted((row for row in folds if row["model"] == model), key=lambda row: row["hospital_fold"])
-        axes[2].plot(
-            [row["hospital_fold"] + 1 for row in model_rows],
-            [row["fixed_contamination_delta"] for row in model_rows],
-            marker="o", color=COLORS[model], label=model,
-        )
-        pooled = next(row for row in global_rows if row["model"] == model)
-        axes[2].axhline(pooled["fixed_contamination_delta"], color=COLORS[model], linestyle="--", alpha=0.7)
-    axes[2].axhline(0, color="#6B7280", linewidth=1)
-    axes[2].set_xticks(range(1, 6))
-    axes[2].set_xlabel("Hospital-disjoint fold")
-    axes[2].set_ylabel("Fixed-score AUROC increment")
-    axes[2].set_title("C  eICU proxy endpoint", loc="left")
-    axes[2].legend(frameon=False)
-    fig.tight_layout()
-    save_figure(fig, output_dir, "Figure_3")
+def figure3(data: dict, output_dir: Path) -> None:
+    horizons = pd.DataFrame(data["figure_3"]["horizons"])
+    ablation = pd.DataFrame(data["figure_3"]["ablation"])
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), constrained_layout=True)
+    for model, (color, marker) in MODEL_STYLE.items():
+        block = horizons.loc[horizons["model"].eq(model)].sort_values("horizon_hours")
+        axes[0].plot(block["horizon_hours"], block["auroc"], color=color, marker=marker, label=model)
+    axes[0].set_xticks([6, 12, 24])
+    axes[0].set_xlabel("Prediction horizon (h)")
+    axes[0].set_ylabel("AUROC")
+    axes[0].legend(fontsize=7)
+    x = np.arange(2)
+    width = 0.34
+    axes[1].bar(x - width / 2, ablation["full_feature_auroc"], width, color=BLUE, label="Full feature set")
+    axes[1].bar(x + width / 2, ablation["without_missingness_recency_auroc"], width, color=ORANGE, label="Without missingness/recency")
+    axes[1].set_xticks(x, ["Logistic\nregression", "LightGBM"])
+    axes[1].set_ylabel("AUROC")
+    axes[1].legend(fontsize=7)
+    axes[0].set_title("A", loc="left", fontweight="bold")
+    axes[1].set_title("B", loc="left", fontweight="bold")
+    save(fig, output_dir, "Figure_3")
 
 
 def main() -> int:
@@ -201,9 +220,10 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=ROOT / "reproduced_figures")
     args = parser.parse_args()
     data = json.loads(args.data.read_text(encoding="utf-8"))
-    figure_1(data, args.output_dir)
-    figure_2(data, args.output_dir)
-    figure_3(data, args.output_dir)
+    style()
+    figure1(data, args.output_dir)
+    figure2(data, args.output_dir)
+    figure3(data, args.output_dir)
     return 0
 
 
