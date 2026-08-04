@@ -1,15 +1,15 @@
-# Eligibility-Aware Dynamic Warning for First Ventilation
+# Eligibility-Aware Dynamic Prediction of First Invasive Mechanical Ventilation Under Fixed ICU Review Capacity
 
 Minimal reproducibility assets for the manuscript:
 
-> *Clinical Information Yield of Eligibility-Aware Dynamic Warning for First Invasive Mechanical Ventilation*
+> *Eligibility-Aware Dynamic Prediction of First Invasive Mechanical Ventilation Under Fixed ICU Review Capacity*
 
-The study evaluates how much near-term clinical information routine ICU data can concentrate under limited review capacity. It reports capacity-response curves, patient-level pre-event reach, warning-time opportunities, repeated-alert burden, and care-context heterogeneity. Dynamic eligibility restricts risk ranking to patients who can still experience a first initiation.
+The study evaluates how routine ICU data can concentrate near-term first-ventilation events under limited review capacity. It reports capacity-response curves, patient-level pre-event reach, warning-time opportunities, repeated-alert burden, and care-context heterogeneity. Dynamic eligibility restricts risk ranking to patients who can still experience a first initiation.
 
 ## Repository contents
 
 - `v28_figure_source_data.json`: aggregate, non-patient-level source data for the capacity-response and patient-level clinical figures.
-- `reproduce_v28_figures.py`: regenerates the two v28 clinical-information figures from the aggregate JSON file.
+- `reproduce_v28_figures.py`: regenerates the two clinical-information figures from the aggregate JSON file.
 - `eligibility_aware_evaluation.py`: reusable fixed-budget target-by-eligibility evaluation and synthetic self-test.
 - `study_specification.csv`: estimand, predictor, preprocessing, model, and uncertainty settings.
 - `figure_source_data.json` and `reproduce_figures.py`: aggregate sources and redraw script for the supporting eligibility analysis.
