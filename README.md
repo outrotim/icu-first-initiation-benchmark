@@ -1,94 +1,56 @@
-# Eligibility Before Prediction
+# Eligibility-Aware Dynamic Warning for First Ventilation
 
-Minimal reproducibility assets for:
+Minimal reproducibility assets for the manuscript:
 
-> *Eligibility Before Prediction: Dynamic Warning for First Invasive Mechanical Ventilation in Critical Care*
+> *Clinical Information Yield of Eligibility-Aware Dynamic Warning for First Invasive Mechanical Ventilation*
 
-This repository accompanies a retrospective predictive modeling study of
-dynamic warning for first initiation of invasive mechanical ventilation. The
-study treats target construction and eligibility filtering as linked parts of
-alert design: a first-event model should predict the future event and rank only
-patients who remain able to experience it.
+The study evaluates how much near-term clinical information routine ICU data can concentrate under limited review capacity. It reports capacity-response curves, patient-level pre-event reach, warning-time opportunities, repeated-alert burden, and care-context heterogeneity. Dynamic eligibility restricts risk ranking to patients who can still experience a first initiation.
 
 ## Repository contents
 
-- `study_specification.csv`: estimand, split, preprocessing, model, uncertainty,
-  and predictor dictionary.
-- `eligibility_aware_evaluation.py`: reusable fixed-budget 2 x 2 evaluation for
-  incident versus history-inclusive targets and eligibility filtering on versus
-  off.
-- `figure_source_data.json`: aggregate, non-patient-level source data for the
-  three main figures.
-- `reproduce_figures.py`: redraws the three main figures from the aggregate JSON.
-- `requirements.txt`: minimal Python environment.
-- `LICENSE`: MIT for code and CC BY 4.0 for aggregate data and specifications.
+- `v28_figure_source_data.json`: aggregate, non-patient-level source data for the capacity-response and patient-level clinical figures.
+- `reproduce_v28_figures.py`: regenerates the two v28 clinical-information figures from the aggregate JSON file.
+- `eligibility_aware_evaluation.py`: reusable fixed-budget target-by-eligibility evaluation and synthetic self-test.
+- `study_specification.csv`: estimand, predictor, preprocessing, model, and uncertainty settings.
+- `figure_source_data.json` and `reproduce_figures.py`: aggregate sources and redraw script for the supporting eligibility analysis.
+- `requirements.txt`: minimal Python dependencies.
+- `LICENSE`: MIT for code and CC BY 4.0 for aggregate data and parameter tables.
 
 ## Data availability
 
-The aggregate numerical results needed to redraw the main figures are openly
-available here. No patient-level records, predictions, timestamps, split
-manifests, hospital identifiers, fitted models, or restricted intermediate
-datasets are included.
+The released JSON contains only aggregate counts, estimates, uncertainty intervals, and descriptive summaries. It does not contain patient-level records, predictions, timestamps, split manifests, hospital identifiers, or restricted intermediate data.
 
-The study used MIMIC-IV version 3.1. This credentialed-access dataset cannot be
-redistributed. Eligible researchers may request access through PhysioNet and
-must comply with its credentialing, training, and data-use requirements.
+The study used MIMIC-IV version 3.1. MIMIC-IV is available only to credentialed users through PhysioNet under its data-use agreement and cannot be redistributed here.
 
-## Installation
+## Reproduce the clinical-information figures
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+python reproduce_v28_figures.py --output-dir reproduced_figures
 ```
 
-## Verify the alert-allocation framework
+The command writes PNG and PDF versions of the capacity-response figure and the patient-level clinical-context figure.
 
-Run the synthetic-data self-test:
+## Verify the supporting AUROC identity
 
 ```bash
 python eligibility_aware_evaluation.py --self-test
 ```
 
-To evaluate authorized local predictions, prepare a CSV with:
+To apply the framework to authorized local data, follow the column specification printed by `eligibility_aware_evaluation.py`. Local patient-level inputs must never be committed to this repository.
 
-- `patient_id`: patient-level clustering identifier.
-- `state`: `never_exposed`, `active`, or `resolved`.
-- `incident_event`: 1 for a future first initiation in the horizon, otherwise 0.
-- `incident_score`: score from the incident-target model.
-- `history_score`: score from the history-inclusive model.
+## Scope
 
-Then run:
+These assets support retrospective model evaluation. They do not provide a fitted bedside product, establish that displaying an alert changes care or outcomes, or authorize redistribution of MIMIC-IV data.
 
-```bash
-python eligibility_aware_evaluation.py \
-  --input authorized_predictions.csv \
-  --budget 0.05 \
-  --output factorial_results.csv
-```
+## License
 
-The input remains local and is never written to this repository.
+Source code is released under the MIT License. `v28_figure_source_data.json`, `figure_source_data.json`, and `study_specification.csv` are released under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
-## Reproduce the main figures
+## Citation
 
-```bash
-python reproduce_figures.py --output-dir reproduced_figures
-```
+Citation details will be added after publication. Until then, cite the manuscript title above and this repository:
 
-The command writes PNG and PDF versions of Figures 1-3 using only aggregate
-source data.
-
-## Interpretation
-
-The estimand is ICU-recorded first invasive mechanical ventilation initiation
-after a landmark among patients never previously exposed at that landmark. The
-released framework evaluates alert allocation; it is not a deployable model.
-Clinical transportability and prospective utility require external validation.
-
-## License and citation
-
-Code is released under the MIT License. `figure_source_data.json` and
-`study_specification.csv` are released under CC BY 4.0. See `LICENSE`.
-
-Citation details will be added after publication. Until then, cite the manuscript
-title above and the archived release linked from the repository release page.
+`https://github.com/outrotim/icu-first-initiation-benchmark`
