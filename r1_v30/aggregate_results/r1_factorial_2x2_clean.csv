@@ -1,0 +1,17 @@
+budget_basis,model,cell,target,eligibility_filter,alerts,ineligible_alerts,ineligible_alert_pct,incident_events_detected,incident_capture_pct,incident_ppv_pct
+5pct_all_scheduled,LightGBM,A_incident_filter_on,incident,on,2720,0,0.0,224,43.24324324324324,8.235294117647058
+5pct_all_scheduled,LightGBM,B_incident_filter_off,incident,off,2720,2173,79.88970588235294,110,21.235521235521237,4.044117647058823
+5pct_all_scheduled,LightGBM,C_history_filter_on,history_inclusive,on,2720,0,0.0,132,25.482625482625483,4.852941176470588
+5pct_all_scheduled,LightGBM,D_history_filter_off,history_inclusive,off,2720,2719,99.96323529411765,1,0.19305019305019305,0.03676470588235294
+5pct_all_scheduled,Logistic Regression,A_incident_filter_on,incident,on,2720,0,0.0,222,42.857142857142854,8.161764705882353
+5pct_all_scheduled,Logistic Regression,B_incident_filter_off,incident,off,2720,2147,78.93382352941177,104,20.077220077220076,3.823529411764706
+5pct_all_scheduled,Logistic Regression,C_history_filter_on,history_inclusive,on,2720,0,0.0,113,21.814671814671815,4.154411764705882
+5pct_all_scheduled,Logistic Regression,D_history_filter_off,history_inclusive,off,2720,2693,99.00735294117646,9,1.7374517374517375,0.33088235294117646
+5pct_eligible,LightGBM,A_incident_filter_on,incident,on,1806,0,0.0,180,34.74903474903475,9.966777408637874
+5pct_eligible,LightGBM,B_incident_filter_off,incident,off,1806,1518,84.0531561461794,88,16.98841698841699,4.872646733111849
+5pct_eligible,LightGBM,C_history_filter_on,history_inclusive,on,1806,0,0.0,94,18.146718146718147,5.2048726467331115
+5pct_eligible,LightGBM,D_history_filter_off,history_inclusive,off,1806,1805,99.94462901439645,1,0.19305019305019305,0.05537098560354374
+5pct_eligible,Logistic Regression,A_incident_filter_on,incident,on,1806,0,0.0,182,35.13513513513514,10.077519379844961
+5pct_eligible,Logistic Regression,B_incident_filter_off,incident,off,1806,1478,81.83831672203765,77,14.864864864864865,4.263565891472868
+5pct_eligible,Logistic Regression,C_history_filter_on,history_inclusive,on,1806,0,0.0,93,17.953667953667953,5.149501661129568
+5pct_eligible,Logistic Regression,D_history_filter_off,history_inclusive,off,1806,1794,99.33554817275747,4,0.7722007722007722,0.22148394241417496

@@ -1,0 +1,265 @@
+{
+  "status": "PASS",
+  "elapsed_seconds": 80.69,
+  "flow": {
+    "total_icustays_raw": 94458,
+    "total_unique_patients_raw": 65366,
+    "excluded_non_adult_stays": 0,
+    "adult_icustays": 94458,
+    "adult_unique_patients": 65366,
+    "excluded_subsequent_icustays": 29092,
+    "patients_with_same_hadm_subsequent_icu_stay": 5675,
+    "patients_with_contiguous_icu_transfer_le24h": 2131,
+    "first_adult_icustays": 65366,
+    "excluded_missing_outtime": 12,
+    "excluded_los_le_6h": 587,
+    "eligible_los_gt_6h_patients": 64767,
+    "patients_with_unit_change_during_stay": 0,
+    "cvicu_patients": 11466,
+    "planned_surgical_patients": 9928,
+    "unplanned_non_cvicu_patients": 48266,
+    "unplanned_non_surgical_patients": 35107
+  },
+  "timing_audit": {
+    "n_proc_imv_stays": 23700,
+    "n_chart_imv_stays": 27313,
+    "n_both_matched": 22941,
+    "signed_diff_proc_minus_chart_median_h": 0.10000000000000009,
+    "signed_diff_q25_h": 0.0,
+    "signed_diff_q75_h": 0.4666666666666667,
+    "signed_diff_p05_h": -0.5,
+    "signed_diff_p95_h": 0.9999999999999996,
+    "abs_diff_median_h": 0.25,
+    "within_1h_frac": 0.9416328843555207,
+    "within_2h_frac": 0.9750664748703195,
+    "chart_precedes_proc_frac": 0.6042892637635674
+  },
+  "lab_storetime_landmark_audit": [
+    {
+      "landmark_hours": 6.0,
+      "total_labs_chart_in_window": 454265,
+      "available_by_storetime_lt_lm": 432300,
+      "excluded_pending_result_at_lm": 21965,
+      "pending_fraction": 0.048352833698391905
+    },
+    {
+      "landmark_hours": 12.0,
+      "total_labs_chart_in_window": 239040,
+      "available_by_storetime_lt_lm": 221942,
+      "excluded_pending_result_at_lm": 17098,
+      "pending_fraction": 0.07152777777777777
+    },
+    {
+      "landmark_hours": 18.0,
+      "total_labs_chart_in_window": 170847,
+      "available_by_storetime_lt_lm": 156563,
+      "excluded_pending_result_at_lm": 14284,
+      "pending_fraction": 0.08360696997898705
+    },
+    {
+      "landmark_hours": 24.0,
+      "total_labs_chart_in_window": 114731,
+      "available_by_storetime_lt_lm": 105335,
+      "excluded_pending_result_at_lm": 9396,
+      "pending_fraction": 0.08189591304878367
+    }
+  ],
+  "vital_storetime_delay": [
+    {
+      "n": 10277267,
+      "median_h": 0.3333333333333339,
+      "q25_h": 0.09999999999999998,
+      "q75_h": 0.8666666666666654,
+      "p90_h": 1.6499999999999995,
+      "frac_le_30min": 0.6086594811636207,
+      "frac_le_1h": 0.7911534262951425
+    }
+  ],
+  "lab_turnaround_by_feature": [
+    {
+      "feature": "bilirubin",
+      "n_obs": 39748,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 1.1833333333333336,
+      "q25_turnaround_h": 0.9500000000000011,
+      "q75_turnaround_h": 1.583333333333334,
+      "p90_turnaround_h": 2.5333333333333314,
+      "frac_gt_1h": 0.6948022542014692,
+      "frac_gt_2h": 0.1487622018717923
+    },
+    {
+      "feature": "creatinine",
+      "n_obs": 130314,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 1.1000000000000014,
+      "q25_turnaround_h": 0.9,
+      "q75_turnaround_h": 1.4000000000000004,
+      "p90_turnaround_h": 1.8166666666666664,
+      "frac_gt_1h": 0.6174317417929003,
+      "frac_gt_2h": 0.06848842027717666
+    },
+    {
+      "feature": "lactate",
+      "n_obs": 103442,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.05000000000000071,
+      "q25_turnaround_h": 0.03333333333333344,
+      "q75_turnaround_h": 0.09999999999999998,
+      "p90_turnaround_h": 0.2666666666666666,
+      "frac_gt_1h": 0.006941087759324066,
+      "frac_gt_2h": 0.002223468223738907
+    },
+    {
+      "feature": "paco2",
+      "n_obs": 148380,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.04999999999999999,
+      "q25_turnaround_h": 0.033333333333333215,
+      "q75_turnaround_h": 0.08333333333333331,
+      "p90_turnaround_h": 0.23333333333333428,
+      "frac_gt_1h": 0.004326728669632026,
+      "frac_gt_2h": 0.0010446151772476075
+    },
+    {
+      "feature": "pao2",
+      "n_obs": 148250,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.04999999999999999,
+      "q25_turnaround_h": 0.033333333333333215,
+      "q75_turnaround_h": 0.08333333333333331,
+      "p90_turnaround_h": 0.23333333333333428,
+      "frac_gt_1h": 0.004344013490725126,
+      "frac_gt_2h": 0.0010590219224283306
+    },
+    {
+      "feature": "ph",
+      "n_obs": 157750,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.04999999999999982,
+      "q25_turnaround_h": 0.033333333333333215,
+      "q75_turnaround_h": 0.08333333333333304,
+      "p90_turnaround_h": 0.2333333333333325,
+      "frac_gt_1h": 0.0042662440570522975,
+      "frac_gt_2h": 0.0010839936608557845
+    },
+    {
+      "feature": "platelets",
+      "n_obs": 133837,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.5833333333333321,
+      "q25_turnaround_h": 0.3999999999999986,
+      "q75_turnaround_h": 0.8499999999999979,
+      "p90_turnaround_h": 1.2333333333333325,
+      "frac_gt_1h": 0.16619469952255356,
+      "frac_gt_2h": 0.024148777991138473
+    },
+    {
+      "feature": "wbc",
+      "n_obs": 131331,
+      "storetime_missing_frac": 0.0,
+      "median_turnaround_h": 0.5666666666666667,
+      "q25_turnaround_h": 0.3833333333333333,
+      "q75_turnaround_h": 0.81666666666667,
+      "p90_turnaround_h": 1.1833333333333336,
+      "frac_gt_1h": 0.15518042198719267,
+      "frac_gt_2h": 0.021898866223511584
+    }
+  ],
+  "primary_landmark_flow": [
+    {
+      "landmark_hours": 6,
+      "present_unplanned_non_cvicu": 48266,
+      "excluded_no_bedside_vital_before_lm": 216,
+      "excluded_prior_imv_proc_or_chart": 13835,
+      "excluded_prior_imv_chart_only_caught": 2459,
+      "r1_eligible": 34215,
+      "events_6h": 729,
+      "event_rate_pct": 2.1306444541867604,
+      "competing_death_6h": 79,
+      "competing_discharge_6h": 1199
+    },
+    {
+      "landmark_hours": 12,
+      "present_unplanned_non_cvicu": 46557,
+      "excluded_no_bedside_vital_before_lm": 74,
+      "excluded_prior_imv_proc_or_chart": 14186,
+      "excluded_prior_imv_chart_only_caught": 2420,
+      "r1_eligible": 32297,
+      "events_6h": 530,
+      "event_rate_pct": 1.641019289717311,
+      "competing_death_6h": 72,
+      "competing_discharge_6h": 3193
+    },
+    {
+      "landmark_hours": 18,
+      "present_unplanned_non_cvicu": 42785,
+      "excluded_no_bedside_vital_before_lm": 60,
+      "excluded_prior_imv_proc_or_chart": 14169,
+      "excluded_prior_imv_chart_only_caught": 2377,
+      "r1_eligible": 28556,
+      "events_6h": 355,
+      "event_rate_pct": 1.2431713125087547,
+      "competing_death_6h": 52,
+      "competing_discharge_6h": 4621
+    },
+    {
+      "landmark_hours": 24,
+      "present_unplanned_non_cvicu": 37395,
+      "excluded_no_bedside_vital_before_lm": 57,
+      "excluded_prior_imv_proc_or_chart": 13788,
+      "excluded_prior_imv_chart_only_caught": 2278,
+      "r1_eligible": 23550,
+      "events_6h": 227,
+      "event_rate_pct": 0.9639065817409767,
+      "competing_death_6h": 56,
+      "competing_discharge_6h": 3436
+    }
+  ],
+  "primary_era_distribution": [
+    {
+      "anchor_year_group": "2008 - 2010",
+      "unique_patients": 10319,
+      "eligible_assessments": 35266,
+      "events_6h": 564,
+      "events_proc_confirmed": 429,
+      "events_gap1h": 463,
+      "event_rate_pct": 1.5992740883570578
+    },
+    {
+      "anchor_year_group": "2011 - 2013",
+      "unique_patients": 7235,
+      "eligible_assessments": 25020,
+      "events_6h": 375,
+      "events_proc_confirmed": 315,
+      "events_gap1h": 293,
+      "event_rate_pct": 1.498800959232614
+    },
+    {
+      "anchor_year_group": "2014 - 2016",
+      "unique_patients": 6421,
+      "eligible_assessments": 22217,
+      "events_6h": 384,
+      "events_proc_confirmed": 340,
+      "events_gap1h": 308,
+      "event_rate_pct": 1.728406175451231
+    },
+    {
+      "anchor_year_group": "2017 - 2019",
+      "unique_patients": 6130,
+      "eligible_assessments": 21497,
+      "events_6h": 266,
+      "events_proc_confirmed": 223,
+      "events_gap1h": 201,
+      "event_rate_pct": 1.2373819602735265
+    },
+    {
+      "anchor_year_group": "2020 - 2022",
+      "unique_patients": 4176,
+      "eligible_assessments": 14618,
+      "events_6h": 252,
+      "events_proc_confirmed": 104,
+      "events_gap1h": 201,
+      "event_rate_pct": 1.7239020385825694
+    }
+  ]
+}

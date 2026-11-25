@@ -1,0 +1,335 @@
+{
+  "elapsed_seconds": 265.32,
+  "tuning": {
+    "primary_temporal_16var": {
+      "lr": {
+        "selected_C": 0.01,
+        "best_val_logloss": 0.07667482717749861,
+        "grid": [
+          {
+            "C": 0.01,
+            "val_logloss": 0.07667482717749861,
+            "val_auroc": 0.7728433831050856,
+            "val_auprc": 0.10625499811174846
+          },
+          {
+            "C": 0.05,
+            "val_logloss": 0.07682726659124113,
+            "val_auroc": 0.7704232602787829,
+            "val_auprc": 0.10731473693073612
+          },
+          {
+            "C": 0.1,
+            "val_logloss": 0.07688391401271004,
+            "val_auroc": 0.7700682930273745,
+            "val_auprc": 0.10865485892821795
+          },
+          {
+            "C": 0.5,
+            "val_logloss": 0.07694592961777555,
+            "val_auroc": 0.768350232446297,
+            "val_auprc": 0.10950910504290824
+          },
+          {
+            "C": 1.0,
+            "val_logloss": 0.07701162118665164,
+            "val_auroc": 0.767513268332341,
+            "val_auprc": 0.11046220536108431
+          },
+          {
+            "C": 5.0,
+            "val_logloss": 0.07711925070226201,
+            "val_auroc": 0.7661188052489352,
+            "val_auprc": 0.1093001336960671
+          }
+        ]
+      },
+      "lgbm": {
+        "selected": {
+          "max_depth": 6,
+          "num_leaves": 15,
+          "min_child_samples": 30,
+          "best_iteration": 214,
+          "val_logloss": 0.07481009471805902,
+          "val_auroc": 0.7888970633139436,
+          "val_auprc": 0.1480645546325601
+        },
+        "grid": [
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 30,
+            "best_iteration": 216,
+            "val_logloss": 0.07481726147165955,
+            "val_auroc": 0.7885385177636299,
+            "val_auprc": 0.1490015713096942
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 30,
+            "best_iteration": 215,
+            "val_logloss": 0.07502384572746279,
+            "val_auroc": 0.7885060745202216,
+            "val_auprc": 0.14727191067857315
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 60,
+            "best_iteration": 187,
+            "val_logloss": 0.07496260714851469,
+            "val_auroc": 0.7887096797279347,
+            "val_auprc": 0.14339764814534953
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 60,
+            "best_iteration": 144,
+            "val_logloss": 0.07501571262296226,
+            "val_auroc": 0.7872789565489549,
+            "val_auprc": 0.14665493491550638
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 100,
+            "best_iteration": 177,
+            "val_logloss": 0.07509494896852595,
+            "val_auroc": 0.7852473177071406,
+            "val_auprc": 0.14316529368664238
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 100,
+            "best_iteration": 183,
+            "val_logloss": 0.07524493124002361,
+            "val_auroc": 0.7856359209682591,
+            "val_auprc": 0.1380154670203052
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 30,
+            "best_iteration": 214,
+            "val_logloss": 0.07481009471805902,
+            "val_auroc": 0.7888970633139436,
+            "val_auprc": 0.1480645546325601
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 30,
+            "best_iteration": 168,
+            "val_logloss": 0.07551887010005831,
+            "val_auroc": 0.7843267406754302,
+            "val_auprc": 0.1417589665904649
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 60,
+            "best_iteration": 187,
+            "val_logloss": 0.07496252739465958,
+            "val_auroc": 0.7848715963220813,
+            "val_auprc": 0.15066523134939433
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 60,
+            "best_iteration": 146,
+            "val_logloss": 0.07537743992327095,
+            "val_auroc": 0.7858478755400845,
+            "val_auprc": 0.14268686570821493
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 100,
+            "best_iteration": 163,
+            "val_logloss": 0.07518408728091032,
+            "val_auroc": 0.7853153053863419,
+            "val_auprc": 0.1411769136625362
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 100,
+            "best_iteration": 139,
+            "val_logloss": 0.07528755817072148,
+            "val_auroc": 0.7849893223560666,
+            "val_auprc": 0.1446568414192468
+          }
+        ]
+      }
+    },
+    "primary_random_16var": {
+      "lr": {
+        "selected_C": 0.01,
+        "best_val_logloss": 0.07197890054331108,
+        "grid": [
+          {
+            "C": 0.01,
+            "val_logloss": 0.07197890054331108,
+            "val_auroc": 0.7902552076439299,
+            "val_auprc": 0.11194744009737909
+          },
+          {
+            "C": 0.05,
+            "val_logloss": 0.07220022278566784,
+            "val_auroc": 0.7891660233861272,
+            "val_auprc": 0.10939940848424415
+          },
+          {
+            "C": 0.1,
+            "val_logloss": 0.07228072773572392,
+            "val_auroc": 0.7884799876302716,
+            "val_auprc": 0.10772769761497503
+          },
+          {
+            "C": 0.5,
+            "val_logloss": 0.07261001422427435,
+            "val_auroc": 0.787540349015322,
+            "val_auprc": 0.10410626643099455
+          },
+          {
+            "C": 1.0,
+            "val_logloss": 0.07257641702378562,
+            "val_auroc": 0.7869515374502507,
+            "val_auprc": 0.10508043451636545
+          },
+          {
+            "C": 5.0,
+            "val_logloss": 0.07270660857801656,
+            "val_auroc": 0.7872750323983021,
+            "val_auprc": 0.1029063862391264
+          }
+        ]
+      },
+      "lgbm": {
+        "selected": {
+          "max_depth": 5,
+          "num_leaves": 15,
+          "min_child_samples": 30,
+          "best_iteration": 231,
+          "val_logloss": 0.06968503114680526,
+          "val_auroc": 0.8005978702045339,
+          "val_auprc": 0.163651364850285
+        },
+        "grid": [
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 30,
+            "best_iteration": 231,
+            "val_logloss": 0.06968503114680526,
+            "val_auroc": 0.8005978702045339,
+            "val_auprc": 0.163651364850285
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 30,
+            "best_iteration": 207,
+            "val_logloss": 0.07000574306072295,
+            "val_auroc": 0.8001398622696344,
+            "val_auprc": 0.15546117032858792
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 60,
+            "best_iteration": 190,
+            "val_logloss": 0.07000136089366384,
+            "val_auroc": 0.7998048487929559,
+            "val_auprc": 0.15530151256551586
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 60,
+            "best_iteration": 225,
+            "val_logloss": 0.06975727978845797,
+            "val_auroc": 0.8020080114295041,
+            "val_auprc": 0.160040342703569
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 15,
+            "min_child_samples": 100,
+            "best_iteration": 187,
+            "val_logloss": 0.07002774399166381,
+            "val_auroc": 0.7985555765101668,
+            "val_auprc": 0.15400409402427206
+          },
+          {
+            "max_depth": 5,
+            "num_leaves": 31,
+            "min_child_samples": 100,
+            "best_iteration": 258,
+            "val_logloss": 0.06987389064261625,
+            "val_auroc": 0.8025907708863138,
+            "val_auprc": 0.15488741379316884
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 30,
+            "best_iteration": 188,
+            "val_logloss": 0.06987435237883032,
+            "val_auroc": 0.8014232996797068,
+            "val_auprc": 0.15732983988986296
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 30,
+            "best_iteration": 256,
+            "val_logloss": 0.0700391638814807,
+            "val_auroc": 0.800715203013091,
+            "val_auprc": 0.15870127953362959
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 60,
+            "best_iteration": 187,
+            "val_logloss": 0.06998307479806383,
+            "val_auroc": 0.7998876260156317,
+            "val_auprc": 0.156821505024262
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 60,
+            "best_iteration": 187,
+            "val_logloss": 0.06992286697404788,
+            "val_auroc": 0.8044515013328305,
+            "val_auprc": 0.15177050982937823
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 15,
+            "min_child_samples": 100,
+            "best_iteration": 252,
+            "val_logloss": 0.06980973192513015,
+            "val_auroc": 0.8039480049713189,
+            "val_auprc": 0.151040071066737
+          },
+          {
+            "max_depth": 6,
+            "num_leaves": 31,
+            "min_child_samples": 100,
+            "best_iteration": 209,
+            "val_logloss": 0.06982287624711,
+            "val_auroc": 0.8033843779857879,
+            "val_auprc": 0.15820875936389758
+          }
+        ]
+      }
+    }
+  }
+}

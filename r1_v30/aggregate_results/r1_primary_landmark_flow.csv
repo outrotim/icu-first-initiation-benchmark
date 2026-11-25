@@ -1,0 +1,5 @@
+landmark_hours,present_unplanned_non_cvicu,excluded_no_bedside_vital_before_lm,excluded_prior_imv_proc_or_chart,excluded_prior_imv_chart_only_caught,r1_eligible,events_6h,event_rate_pct,competing_death_6h,competing_discharge_6h
+6,48266,216,13835,2459,34215,729,2.1306444541867604,79,1199
+12,46557,74,14186,2420,32297,530,1.641019289717311,72,3193
+18,42785,60,14169,2377,28556,355,1.2431713125087547,52,4621
+24,37395,57,13788,2278,23550,227,0.9639065817409767,56,3436
